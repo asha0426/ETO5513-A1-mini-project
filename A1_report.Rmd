@@ -1,0 +1,58 @@
+---
+title: "Electric and Non-Electric Car Sales"
+author: "Annika Shah"
+date: "2026-10-22"
+output: 
+  html_document:
+    theme: cosmo
+    highlight: tango
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
+```
+
+## Loading Libraries
+
+```{r Libraries, echo=FALSE, message=FALSE, warning=FALSE}
+library(readr)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(knitr)
+```
+
+## Research Question
+
+Which countries sold the most electric cars between 2010 and 2025, and how does this compare with their overall car sales? Overall car sales is defined as the total of electric and non-electric car sales.
+
+## Data Set Introduction
+
+This report uses [Number of new cars sold, by type](https://ourworldindata.org/grapher/car-sales), which records the number of new electric and non-electric cars sold between 2010 and 2025 across 60 countries. This data originates from the International Energy Agency's *Global EV Outlook 2025*, processed by Our World in Data (OWID).
+
+```{r load-data}
+ev_cars <- read_csv("Data/car-sales.csv", show_col_types = FALSE) %>%
+  rename(entity = Entity,
+         code = Code,
+         year = Year,
+         electric_cars = 'Electric cars',
+         non_electric_cars = 'Non-electric cars') %>%
+  filter(!entity %in% c("World", "Europe", "European Union (27)",
+                        "Rest of World")) %>%
+  drop_na()
+```
+
+
+## Variables
+
+There are 5 variables: the two character variables are entity (the country of sale) and code (its three-letter country code). The three numeric variables are year (the calendar year of the record), electric_cars and non_electric_cars (the number of new electric and non-electric cars sold in that country and year).
+
+```{r variable-table}
+variable_table <- data.frame(Variable=names(ev_cars),
+                            Type=sapply(ev_cars,class))
+kable(variable_table,
+      row.names = FALSE,
+      caption= "Variables in the car data set")
+```
+
