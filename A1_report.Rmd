@@ -2,11 +2,12 @@
 title: "Electric and Non-Electric Car Sales"
 author: "Annika Shah"
 date: "2026-10-22"
-output: 
-  html_document:
+output:
+  bookdown::html_document2:
     theme: cosmo
     highlight: tango
 ---
+
 ```{css, echo = FALSE}
 body { font-size: 12px; }
 pre, code { font-size: 10px; }
@@ -26,6 +27,7 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(knitr)
+library(bookdown)
 ```
 
 ## Research Question
@@ -63,7 +65,7 @@ knitr::include_graphics("Image/R inline code.png")
 str(head(ev_cars, 2))
 ```
 ## Data Summary
-```{r summary table}
+```{r summary-table}
 ev_summary <- ev_cars %>%
   select(entity, electric_cars, non_electric_cars) %>%
   group_by(entity) %>%
