@@ -10,8 +10,8 @@ output:
 ```{css, echo = FALSE}
 body { font-size: 12px; }
 pre, code { font-size: 10px; }
-h2 { font-size: 18px; margin-top: 10px; }
-h3 { font-size: 15px; }
+h2 { font-size: 16px; margin-top: 10px; }
+h3 { font-size: 14px; }
 ```
 
 ```{r setup, include=FALSE}
@@ -50,7 +50,7 @@ kable(variable_table,
 ```
 ## Data Set Description
 The cleaned data set has `r nrow(ev_cars)` observations and `r ncol(ev_cars)` variables.Four aggregate regions (World, Europe, European Union (27) and Rest of World) were removed to avoid double-counting, along with two rows with missing values, leaving `r nrow(ev_cars)` observations across `r n_distinct(ev_cars$entity)` countries.
-```{r code-screenshot, out.width = "60%"}
+```{r code-screenshot, out.width = "55%"}
 knitr::include_graphics("Data/R inline code.png")
 ```
 
@@ -78,7 +78,7 @@ kable(ev_summary,
 **China**, followed by the United States and then Germany, sold the most electric cars between 2010 and 2025. However, even in China, electric sales (46.6 million) are far below non-electric sales (272.7 million), and Norway is the only country shown where the two are close. 
 
 ## Visualisations 
-```{r scatter plot, fig.cap = "Total electric and non-electric car sales by country, 2010 to 2025", fig.height = 3.5, fig.width = 5, out.width = "70%"}
+```{r scatter plot, fig.cap = "Total electric and non-electric car sales by country, 2010 to 2025", fig.height = 3, fig.width = 4.5, out.width = "55%"}
 country_totals <- ev_cars %>%
   group_by(entity) %>%
   summarise(total_electric = sum(electric_cars),
