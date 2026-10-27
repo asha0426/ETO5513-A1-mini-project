@@ -97,6 +97,7 @@ kable(share_table,
 
 ```
 
+Table \@ref(tab:share-table) expresses each country's electric sales as a percentage of its overall car sales (electric plus non-electric) from 2010 to 2025. Norway's share is by far the highest of the six countries, at 48.0%, while China, despite having the most electric sales, reaches only 14.6%.
 
 ## Visualisations 
 ```{r scatter plot, fig.cap = "Total electric and non-electric car sales by country, 2010 to 2025", fig.height = 3, fig.width = 4.5, out.width = "55%"}
