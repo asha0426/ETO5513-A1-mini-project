@@ -69,5 +69,24 @@ knitr::include_graphics("Data/R inline code.png")
 ```{r structure}
 str(head(ev_cars, 2))
 ```
+## Data Summary
 
+```{r summary table}
+ev_summary <- ev_cars %>%
+  select(entity, electric_cars, non_electric_cars) %>%
+  group_by(entity) %>%
+  summarise(mean_electric= mean(electric_cars),
+            total_electric= sum(electric_cars),
+            mean_non_electric=mean(non_electric_cars),
+            total_non_electric=sum(non_electric_cars)) %>%
+  arrange(desc(total_electric)) %>%
+  head(10)
 
+kable(ev_summary,
+      digits= 0,
+      format.args = list(big.mark = ","),
+      caption = "Top 10 countries by total electric car sales between 2010 and 2025")
+
+```
+
+**China**, followed by the United States and then Germany, sold the most electric cars between 2010 and 2025. However, even in China, electric sales (46.6 million) are far below non-electric sales (272.7 million), and Norway is the only country shown where the two are close.  
