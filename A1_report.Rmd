@@ -84,6 +84,20 @@ kable(ev_summary,
 ```
 **China**, followed by the United States and then Germany, sold the most electric cars between 2010 and 2025. However, even in China, electric sales (46.6 million) are far below non-electric sales (272.7 million), and Norway is the only country shown where the two are close. 
 
+```{r share-table}
+share_table <- ev_summary %>%
+  mutate(electric_share = 100 * total_electric/
+           (total_electric + total_non_electric)) %>%
+  select(entity, electric_share)
+
+kable(share_table,
+      digits = 1,
+      col.names = c("Country", "Electric share of total sales (%)"),
+      caption = "Percentage of Electric Sales during 2010 to 2025")
+
+```
+
+
 ## Visualisations 
 ```{r scatter plot, fig.cap = "Total electric and non-electric car sales by country, 2010 to 2025", fig.height = 3, fig.width = 4.5, out.width = "55%"}
 country_totals <- ev_cars %>%
