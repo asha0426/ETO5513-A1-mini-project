@@ -7,13 +7,17 @@ output:
     theme: cosmo
     highlight: tango
 ---
+```{css, echo = FALSE}
+body { font-size: 12px; }
+pre, code { font-size: 10px; }
+h2 { font-size: 18px; margin-top: 10px; }
+h3 { font-size: 15px; }
+```
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
 ```
-
 ## Loading Libraries
-
 ```{r Libraries, echo = FALSE, message = FALSE, warning = FALSE}
 library(readr)
 library(dplyr)
@@ -21,15 +25,10 @@ library(tidyr)
 library(ggplot2)
 library(knitr)
 ```
-
 ## Research Question
-
 Which countries sold the most electric cars between 2010 and 2025, and how does this compare with their overall car sales? Overall car sales is defined as the total of electric and non-electric car sales.
-
 ## Data Set Introduction
-
 This report uses [Number of new cars sold, by type](https://ourworldindata.org/grapher/car-sales), which records the number of new electric and non-electric cars sold between 2010 and 2025 across 60 countries. This data originates from the International Energy Agency's *Global EV Outlook 2025*, processed by Our World in Data (OWID).
-
 ```{r load-data}
 ev_cars <- read_csv("Data/car-sales.csv", show_col_types = FALSE) %>%
   rename(entity = Entity,
@@ -41,9 +40,7 @@ ev_cars <- read_csv("Data/car-sales.csv", show_col_types = FALSE) %>%
                         "Rest of World")) %>%
   drop_na()
 ```
-
 There are 5 variables: the two character variables are entity (the country of sale) and code (its three-letter country code). The three numeric variables are year (the calendar year of the record), electric_cars and non_electric_cars (the number of new electric and non-electric cars sold in that country and year).
-
 ```{r variable-table}
 variable_table <- data.frame(Variable=names(ev_cars),
                             Type=sapply(ev_cars,class))
@@ -51,13 +48,8 @@ kable(variable_table,
       row.names = FALSE,
       caption = "Variables in the car data set")
 ```
-
 ## Data Set Description
-
-The cleaned data set has `r nrow(ev_cars)` observations and `r ncol(ev_cars)` variables.
-
-Four aggregate regions (World, Europe, European Union (27) and Rest of World) were removed to avoid double-counting, along with two rows with missing values, leaving `r nrow(ev_cars)` observations across `r n_distinct(ev_cars$entity)` countries.
-
+The cleaned data set has `r nrow(ev_cars)` observations and `r ncol(ev_cars)` variables.Four aggregate regions (World, Europe, European Union (27) and Rest of World) were removed to avoid double-counting, along with two rows with missing values, leaving `r nrow(ev_cars)` observations across `r n_distinct(ev_cars$entity)` countries.
 ```{r code-screenshot, out.width = "60%"}
 knitr::include_graphics("Data/R inline code.png")
 ```
@@ -66,7 +58,6 @@ knitr::include_graphics("Data/R inline code.png")
 str(head(ev_cars, 2))
 ```
 ## Data Summary
-
 ```{r summary table}
 ev_summary <- ev_cars %>%
   select(entity, electric_cars, non_electric_cars) %>%
@@ -88,20 +79,26 @@ kable(ev_summary,
 **China**, followed by the United States and then Germany, sold the most electric cars between 2010 and 2025. However, even in China, electric sales (46.6 million) are far below non-electric sales (272.7 million), and Norway is the only country shown where the two are close. 
 
 ## Visualisations 
-
 ```{r scatter plot, fig.cap = "Total electric and non-electric car sales by country, 2010 to 2025", fig.height = 3.5, fig.width = 5, out.width = "70%"}
 country_totals <- ev_cars %>%
   group_by(entity) %>%
   summarise(total_electric = sum(electric_cars),
             total_non_electric = sum(non_electric_cars))
 
-ggplot(country_totals, aes(x = total_non_electric, y = total_electric))+
-  geom_point(alpha = 0.7)+
-  scale_x_log10(labels = scales:: comma)+
-  scale_y_log10(labels = scales:: comma)+
-  labs(x= "Total non-electric cars sold (log scale)",
-       y= "Total electric cars sold (log scale)")
-  
+labelled <- country_totals %>%
+  filter(entity %in% c("China", "United States", "Norway"))
+
+ggplot(data = country_totals,
+       aes(x = total_non_electric, y = total_electric)) +
+  geom_point(alpha = 0.7) +
+  geom_text(data = labelled,
+            aes(label = entity),
+            hjust = 1.15,
+            size = 3) +
+  scale_x_log10(labels = scales::comma) +
+  scale_y_log10(labels = scales::comma) +
+  labs(x = "Total non-electric cars sold (log scale)",
+       y = "Total electric cars sold (log scale)")
   
 
 
