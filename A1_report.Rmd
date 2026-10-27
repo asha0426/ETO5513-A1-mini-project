@@ -100,7 +100,7 @@ kable(share_table,
 Table \@ref(tab:share-table) expresses each country's electric sales as a percentage of its overall car sales (electric plus non-electric) from 2010 to 2025. Norway's share is by far the highest of the six countries, at 48.0%, while China, despite having the most electric sales, reaches only 14.6%.
 
 ## Visualisations 
-```{r scatter plot, fig.cap = "Total electric and non-electric car sales by country, 2010 to 2025", fig.height = 3, fig.width = 4.5, out.width = "55%"}
+```{r scatter plot, fig.cap = "Total electric and non-electric car sales by country, 2010 to 2025", fig.height = 2.5, fig.width = 4, out.width = "55%"}
 country_totals <- ev_cars %>%
   group_by(entity) %>%
   summarise(total_electric = sum(electric_cars),
@@ -123,6 +123,20 @@ ggplot(data = country_totals,
 - *Countries with larger non-electric car sales generally also have larger electric car sales, so the points are upward sloping.*
 
 - *China sits at the top right with the highest totals for both, while Norway lies well above the general pattern, with electric sales (1.14 million) close to its non-electric sales (1.23 million)*
+
+```{r yearly-plot, fig.cap= "Electric car sales over the period of 2010 to 2025", fig.height = 2.5, fig.width = 4, out.width = "55%"}
+yearly_totals <- ev_cars %>%
+  group_by(year) %>%
+  summarise(total_electric = sum(electric_cars))
+
+ggplot(yearly_totals, aes(x = year, y = total_electric))+
+  geom_line()+
+  geom_point()+
+  scale_y_continuous(labels = scales::comma)+
+  labs(x = "Year",
+       y = "Total electric cars sold")
+```
+
 
 ## Conclusions
 China, the United States and Germany sold the most electric cars between 2010 and 2025. Compared with overall car sales, however, electric cars remain a minority in most of these leading markets, where non-electric sales are far higher. Norway is the exception, with electric sales (1.14 million) close to its non-electric sales (1.23 million). Across all 60 countries, those with larger non-electric sales also tended to sell more electric cars.
