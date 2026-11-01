@@ -56,7 +56,7 @@ kable(variable_table,
 ## Data Set Description
 The cleaned data set has `r nrow(ev_cars)` observations and `r ncol(ev_cars)` variables. Four aggregate regions (World, Europe, European Union (27) and Rest of World) were removed to avoid double-counting, along with two rows with missing values, leaving `r n_distinct(ev_cars$entity)` countries.
 ```{r code-screenshot, out.width = "55%"}
-knitr::include_graphics("Image/R inline code.png")
+knitr::include_graphics("Image/code-screenshot.png")
 ```
 
 ```{r structure}
