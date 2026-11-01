@@ -110,4 +110,4 @@ ggplot(data = country_totals,
 
 ## Conclusions
 
-China, the United States and Germany sold the most electric cars between 2010 and 2025. Compared with overall car sales, however, electric cars remain a minority in most of these leading markets, where non-electric sales are far higher. Norway is the exception, with electric sales (1.14 million) close to its non-electric sales (1.23 million). Across all 60 countries, those with larger non-electric sales also tended to sell more electric cars.
+China, the United States and Germany sold the most electric cars between 2010 and 2025. Compared with overall car sales, however, electric cars remain a minority in these leading markets, even in China, electric car sales (46.6 million) are well below non-electric car sales (272.7 million). Norway is the exception, with a near 50/50 divide, with electric sales at 1.14 million and non-electric sales at 1.23 million. Across all 60 countries, those with larger non-electric sales also tended to sell more electric cars.
