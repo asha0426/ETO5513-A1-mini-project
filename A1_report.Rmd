@@ -2,11 +2,12 @@
 title: "Electric and Non-Electric Car Sales"
 author: "Annika Shah"
 date: "2026-10-22"
-output: 
-  html_document:
+output:
+  bookdown::html_document2:
     theme: cosmo
     highlight: tango
 ---
+
 ```{css, echo = FALSE}
 body { font-size: 12px; }
 pre, code { font-size: 10px; }
@@ -26,6 +27,7 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(knitr)
+library(bookdown)
 ```
 
 ## Research Question
@@ -64,7 +66,7 @@ knitr::include_graphics("Image/code-screenshot.png")
 str(head(ev_cars, 2))
 ```
 ## Data Summary
-```{r summary table}
+```{r summary-table}
 ev_summary <- ev_cars %>%
   select(entity, electric_cars, non_electric_cars) %>%
   group_by(entity) %>%
@@ -83,8 +85,23 @@ kable(ev_summary,
 ```
 **China**, followed by the United States and then Germany, sold the most electric cars between 2010 and 2025. However, even in China, electric sales (46.6 million) are far below non-electric sales (272.7 million), and Norway is the only country shown where the two are close. 
 
+```{r share-table}
+share_table <- ev_summary %>%
+  mutate(electric_share = 100 * total_electric/
+           (total_electric + total_non_electric)) %>%
+  select(entity, electric_share)
+
+kable(share_table,
+      digits = 1,
+      col.names = c("Country", "Electric share of total sales (%)"),
+      caption = "Percentage of Electric Sales during 2010 to 2025")
+
+```
+
+Table \@ref(tab:share-table) expresses each country's electric sales as a percentage of its overall car sales (electric plus non-electric) from 2010 to 2025. Norway's share is by far the highest of the six countries, at 48.0%, while China, despite having the most electric sales, reaches only 14.6%.
+
 ## Visualisations 
-```{r scatter plot, fig.cap = "Total electric and non-electric car sales by country, 2010 to 2025", fig.height = 3, fig.width = 4.5, out.width = "55%"}
+```{r scatter plot, fig.cap = "Total electric and non-electric car sales by country, 2010 to 2025", fig.height = 2.5, fig.width = 4, out.width = "55%"}
 country_totals <- ev_cars %>%
   group_by(entity) %>%
   summarise(total_electric = sum(electric_cars),
@@ -108,6 +125,21 @@ ggplot(data = country_totals,
 
 - *China sits at the top right with the highest totals for both, while Norway lies well above the general pattern, with electric sales (1.14 million) close to its non-electric sales (1.23 million)*
 
+```{r yearly-plot, fig.cap= "Electric car sales over the period of 2010 to 2025", fig.height = 2.5, fig.width = 4, out.width = "55%"}
+yearly_totals <- ev_cars %>%
+  group_by(year) %>%
+  summarise(total_electric = sum(electric_cars))
+
+ggplot(yearly_totals, aes(x = year, y = total_electric))+
+  geom_line()+
+  geom_point()+
+  scale_y_continuous(labels = scales::comma)+
+  labs(x = "Year",
+       y = "Total electric cars sold")
+```
+
+Figure \@ref(fig:yearly-plot) shows that electric cars sales have steadily risen over the 5 years, to above 20 million cars sold in 2025. Part of this growth reflects more countries being recorded over time (`r sum(ev_cars$year == 2010)` in 2010 and `r sum(ev_cars$year == 2025)` in 2025).
+
 ## Conclusions
 
-China, the United States and Germany sold the most electric cars between 2010 and 2025. Compared with overall car sales, however, electric cars remain a minority in these leading markets, even in China, electric car sales (46.6 million) are well below non-electric car sales (272.7 million). Norway is the exception, with a near 50/50 divide, with electric sales at 1.14 million and non-electric sales at 1.23 million. Across all 60 countries, those with larger non-electric sales also tended to sell more electric cars.
+China, the United States and Germany sold the most electric cars between 2010 and 2025. Compared with overall car sales, however, electric cars remain a minority in the six leading markets: even in China, electric sales (46.6 million) are far below non-electric sales (272.7 million), an electric share of 14.6%, while only Norway approaches a balance, at 48%. Across all 60 countries, those with larger non-electric sales also tended to sell more electric cars. Total electric car sales increased each year, reaching over 20 million in 2025, although this may partly reflect more countries being recorded over time.
