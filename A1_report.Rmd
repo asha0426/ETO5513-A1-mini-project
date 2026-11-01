@@ -38,8 +38,8 @@ ev_cars <- read_csv("Data/car-sales.csv", show_col_types = FALSE) %>%
   rename(entity = Entity,
          code = Code,
          year = Year,
-         electric_cars = 'Electric cars',
-         non_electric_cars = 'Non-electric cars') %>%
+         electric_cars = `Electric cars`,
+         non_electric_cars = `Non-electric cars`) %>%
   filter(!entity %in% c("World", "Europe", "European Union (27)",
                         "Rest of World")) %>%
   drop_na()
@@ -47,7 +47,8 @@ ev_cars <- read_csv("Data/car-sales.csv", show_col_types = FALSE) %>%
 There are 5 variables: the two character variables are entity (the country of sale) and code (its three-letter country code). The three numeric variables are year (the calendar year of the record), electric_cars and non_electric_cars (the number of new electric and non-electric cars sold in that country and year).
 ```{r variable-table}
 variable_table <- data.frame(Variable = names(ev_cars),
-                            Type = sapply(ev_cars,class))
+                             Type = sapply(ev_cars, class))
+
 kable(variable_table,
       row.names = FALSE,
       caption = "Variables in the car data set")
