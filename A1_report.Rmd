@@ -1,7 +1,7 @@
 ---
 title: "Electric and Non-Electric Car Sales"
 author: "Annika Shah"
-date: "2026-10-22"
+date: "02-11-2026"
 output:
   bookdown::html_document2:
     theme: cosmo
@@ -94,14 +94,14 @@ share_table <- ev_summary %>%
 kable(share_table,
       digits = 1,
       col.names = c("Country", "Electric share of total sales (%)"),
-      caption = "Percentage of Electric Sales during 2010 to 2025")
+      caption = "Percentage of electric sales during 2010 to 2025")
 
 ```
 
 Table \@ref(tab:share-table) expresses each country's electric sales as a percentage of its overall car sales (electric plus non-electric) from 2010 to 2025. Norway's share is by far the highest of the six countries, at 48.0%, while China, despite having the most electric sales, reaches only 14.6%.
 
 ## Visualisations 
-```{r scatter plot, fig.cap = "Total electric and non-electric car sales by country, 2010 to 2025", fig.height = 2.5, fig.width = 4, out.width = "55%"}
+```{r scatter-plot, fig.cap = "Total electric and non-electric car sales by country, 2010 to 2025", fig.height = 3, fig.width = 4, out.width = "55%"}
 country_totals <- ev_cars %>%
   group_by(entity) %>%
   summarise(total_electric = sum(electric_cars),
@@ -123,9 +123,9 @@ ggplot(data = country_totals,
 
 - *Countries with larger non-electric car sales generally also have larger electric car sales, so the points are upward sloping.*
 
-- *China sits at the top right with the highest totals for both, while Norway lies well above the general pattern, with electric sales (1.14 million) close to its non-electric sales (1.23 million)*
+- *China sits at the top right with the highest totals for both, while Norway lies well above the general pattern, with electric sales (1.14 million) close to its non-electric sales (1.23 million).*
 
-```{r yearly-plot, fig.cap= "Electric car sales over the period of 2010 to 2025", fig.height = 2.5, fig.width = 4, out.width = "55%"}
+```{r yearly-plot, fig.cap = "Electric car sales over the period of 2010 to 2025", fig.height = 2.5, fig.width = 4, out.width = "55%"}
 yearly_totals <- ev_cars %>%
   group_by(year) %>%
   summarise(total_electric = sum(electric_cars))
@@ -138,7 +138,7 @@ ggplot(yearly_totals, aes(x = year, y = total_electric))+
        y = "Total electric cars sold")
 ```
 
-Figure \@ref(fig:yearly-plot) shows that electric cars sales have steadily risen over the 5 years, to above 20 million cars sold in 2025. Part of this growth reflects more countries being recorded over time (`r sum(ev_cars$year == 2010)` in 2010 and `r sum(ev_cars$year == 2025)` in 2025).
+Figure \@ref(fig:yearly-plot) shows that electric cars sales have steadily risen each year since 2010 to above 20 million cars sold in 2025. Part of this growth reflects more countries being recorded over time (`r sum(ev_cars$year == 2010)` in 2010 and `r sum(ev_cars$year == 2025)` in 2025).
 
 ## Conclusions
 
